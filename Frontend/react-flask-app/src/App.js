@@ -15,22 +15,42 @@ class App extends Component {
   }
 
   render() {
-    var text = ""
+    var text = [];
     console.log(this.state.data)
-    for( let prop in this.state.data ){
-      text = text + "<li>" + prop + ":" + this.state.data[prop] + "</li>" ; 
-    }
-
-    console.log(text)
+    // for (let prop in this.state.data){
+    //   text = text + prop + ": " +this.state.data[prop];
+    // }
+   for( let prop in this.state.data ){
+     text.push([prop, "  ", this.state.data[prop]]) ; 
+  }
     
     return (
-      <div>
-        <ul>
-        {text}
-         </ul>
-      </div>
+      <ul>
+      {text.map(function(key, value) {
+        return <li key={key}>{key}</li>
+      })}
+      </ul>
     );
   }
+}
+
+function makeUL(array) {
+  // Create the list element:
+  var list = document.createElement('ul');
+
+  for (var i = 0; i < array.length; i++) {
+      // Create the list item:
+      var item = document.createElement('li');
+
+      // Set its contents:
+      item.appendChild(document.createTextNode(array[i]));
+
+      // Add it to the list:
+      list.appendChild(item);
+  }
+
+  // Finally, return the constructed list:
+  return list;
 }
 
 
