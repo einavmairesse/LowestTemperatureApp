@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 import requests
 
 from App import config
@@ -35,7 +37,6 @@ def get_lowest_temp_in_city(city):
         city_weather_data.append(response.json())
     else:
         city_weather_data.append(None)
-        # todo take care for missing data
 
     for hour_data in city_weather_data[0]['list']:
         if hour_data['main']['temp_min'] < lowest_temp:
@@ -49,7 +50,7 @@ def get_lowest_temp_in_city(city):
 def get_api_url(city):
     base_path = "http://api.openweathermap.org/data/2.5/forecast?q="
     final_path = '{base_path}{city}&appid={token}'.format(
-        base_path=base_path, city=city, token=config.token
+        base_path=base_path, city=city, token=config.api_token
     )
     return final_path
 
@@ -65,3 +66,16 @@ def execute_request(address):
         response = None
 
     return response
+
+
+def get_next_flush():
+    flush_hours = [0, 3, 6, 9, 12, 15, 18, 21]
+    now = datetime.now()
+    time_delta = 0
+    for hour in flush_hours:
+        if hour - now.hour > 0:
+            target = timedelta(hours=now.hour)
+            now = timedelta(hours=now.hour, minutes=now.minute, seconds=now.second)
+            time_delta = target - now
+            break
+    return time_delta.seconds
