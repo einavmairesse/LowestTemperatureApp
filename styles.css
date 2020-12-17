@@ -1,0 +1,24 @@
+.center {
+  margin: auto;
+  text-align: center;
+}
+
+.border {
+    width: 50%;
+    border: 2px ridge gray;
+    padding: 2px;
+    background-color: rgb(204, 255, 229);
+}
+
+body {
+     background-color: rgb(230, 249, 255);
+     font-size: 25px;
+     color: rgb(38, 0, 77);
+}
+
+h1 {
+    background-color: rgb(38, 0, 77);
+    color: rgb(209, 224, 224);
+    text-decoration: underline;
+}
+

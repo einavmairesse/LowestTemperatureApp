@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="styles.css">
+    <title>Lowest Temperature</title>
+  </head>
+  <body class="center">
+    <h1> Lowest Temerature </h1>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <div id="mydiv"></div>
+    <script type="text/babel">
+      class App extends React.Component {
+        constructor() {
+          super();
+          this.state = { data: [] };
+       }
+
+      async componentDidMount() {
+        const response = await fetch('http://127.0.0.1:5000/get_lowest_temp');
+        const json = await response.json();
+        this.setState({ data: json });
+      }
+
+      render() {
+      var text = [];
+      console.log(this.state.data)
+      for( let prop in this.state.data ){
+        text.push([prop, this.state.data[prop]]) ;
+      }
+    
+      return (
+        <table class="center">
+         {text.map(function(key, value) {
+          return <tbody><td class="border">{key[0]}</td> <td class="border">{key[1]}</td></tbody>
+          })}
+        </table>
+      );
+    }
+  }
+      ReactDOM.render(<App />, document.getElementById('mydiv'))
+    </script>
+  </body>
+</html>
